@@ -1,0 +1,14 @@
+# gitleaks.toml
+title = "Custom Gitleaks Config"
+
+[[rules]]
+id = "generic-username"
+description = "Generic Username"
+regex = '''(?i)(username|user)[\s]*[:=][\s]*['"]?[a-zA-Z0-9._%+-]+['"]?'''
+tags = ["username"]
+
+[[rules]]
+id = "generic-credential"
+description = "Generic Credential"
+regex = '''(?i)(credential|password|secret|token)[\s]*[:=][\s]*['"]?[a-zA-Z0-9._%+-]+['"]?'''
+tags = ["credential"]
