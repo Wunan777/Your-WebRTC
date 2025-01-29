@@ -7,6 +7,7 @@ const TURN_URL = "";
 const TURN_USERNAME = "";
 const TURN_CREDENTIAL = "";
 const SIGNALING_URL = "";
+const enableE2EE = false;
 
 // 全局捕获未处理的 Promise 拒绝
 window.addEventListener("unhandledrejection", function (event) {
@@ -81,8 +82,9 @@ async function call() {
                 console.error("add track error: ", error);
             }
         });
-
-        pc.getSenders().forEach(setupSenderTransform);
+        if (enableE2EE) {
+            pc.getSenders().forEach(setupSenderTransform);
+        }
     } else {
         alert("localstream unable to add track");
         return;
@@ -212,7 +214,7 @@ function initPC() {
 
     // 1. RTCPeerConnection
     pc = new RTCPeerConnection({
-        encodedInsertableStreams: true, // needed by chrome shim
+        encodedInsertableStreams: enableE2EE, // needed by chrome shim
         iceServers: [
             {
                 // default "stun:stun.l.google.com:19302",
@@ -267,11 +269,14 @@ function initPC() {
     pc.addEventListener("track", (e) => {
         console.log("receive track: ", e);
         if (e.streams.length == 0) {
+            console.log("receive track stream is empty");
             return;
         }
-
+        console.log("receive track stream: ", e.streams[0]);
         // add remote stream
-        setupReceiverTransform(e.receiver);
+        if (enableE2EE) {
+            setupReceiverTransform(e.receiver);
+        }
         remoteVideo.srcObject = e.streams[0];
     });
 }

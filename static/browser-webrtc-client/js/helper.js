@@ -80,6 +80,10 @@ function setupSenderTransform(sender) {
         [readable, writable]
     );
 }
+/**
+ *
+ * @param {RTCRtpReceiver} receiver
+ */
 function setupReceiverTransform(receiver) {
     // if (window.RTCRtpScriptTransform) {
     //     receiver.transform = new RTCRtpScriptTransform(worker, {
