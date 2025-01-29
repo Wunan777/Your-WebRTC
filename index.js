@@ -33,8 +33,8 @@ const server = http.createServer((req, res) => {
 
     // 提供静态文件服务
     if (req.method === "GET" && req.url === "/") {
-        console.log("request index.html");
-        const filePath = path.join(__dirname, staticDir, "/index.html");
+        const filePath = path.join(staticDir, "index.html");
+        console.log(`request ${filePath}`);
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 res.writeHead(404, { "Content-Type": "text/plain" });
